@@ -1,9 +1,12 @@
 package com.solidgeargroup.dialogflow.dialogflow;
 
 import android.content.Context;
+import android.os.Debug;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,9 +20,9 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<Film> mFilms;
+    private OnRecyclerViewItemListener mItemListener;
 
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView titleTextView;
         public TextView descTextView;
@@ -31,12 +34,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             titleTextView = (TextView) itemView.findViewById(R.id.title);
             descTextView = (TextView) itemView.findViewById(R.id.description);
             imageImageView = (ImageView) itemView.findViewById(R.id.image);
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            mItemListener.onItemClick(null, view, getAdapterPosition());
+        }
+
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(List<Film> films) {
+    public MyAdapter(List<Film> films, OnRecyclerViewItemListener itemListener) {
         mFilms = films;
+        mItemListener = itemListener;
     }
 
     @Override
