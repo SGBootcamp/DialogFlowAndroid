@@ -109,11 +109,20 @@ public class MainActivity extends AppCompatActivity implements OnRecyclerViewIte
 
         mTextToSpeech.speak(result.getFulfillment().getSpeech(), TextToSpeech.QUEUE_FLUSH, null, null);
 
+        if (result.getAction().equals("description")) {
+            int filmPosition=0;
+            for (int i=0; i<myFilms.size(); i++) {
+                if (myFilms.get(i).getTitle().contains(result.getParameters().get("film").toString().replace("\"", ""))) {
+                    filmPosition = i;
+                }
+            }
+            openFilmDetails(filmPosition);
+        }
     }
 
     @Override
     public void onError(AIError error) {
-
+        Log.d("tag", error.toString());
     }
 
     @Override
